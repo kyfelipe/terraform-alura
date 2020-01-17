@@ -8,26 +8,42 @@ resource "aws_instance" "dev" {
   ami                    = "ami-04b9e92b5572fa0d1"
   instance_type          = "t2.micro"
   key_name               = "terraform-aws"
-  vpc_security_group_ids = ["sg-08756969e6e8f31f2"]
+  vpc_security_group_ids = ["${aws_security_group.access-ssh.id}"]
   
   tags = {
     Name = "dev${count.index}"
   }
 }
 
-resource "aws_security_group" "access-ssh" {
-  name        = "access-ssh"
-  description = "access-ssh"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["201.59.53.171/32"]
-  }
+resource "aws_instance" "dev4" {
+  ami                    = "ami-04b9e92b5572fa0d1"
+  instance_type          = "t2.micro"
+  key_name               = "terraform-aws"
+  vpc_security_group_ids = ["${aws_security_group.access-ssh.id}"]
+  depends_on = [aws_s3_bucket.dev4]
 
   tags = {
-    Name = "ssh"  
+    Name = "dev4"
+  }
+}
+
+resource "aws_instance" "dev5" {
+  ami                    = "ami-04b9e92b5572fa0d1"
+  instance_type          = "t2.micro"
+  key_name               = "terraform-aws"
+  vpc_security_group_ids = ["${aws_security_group.access-ssh.id}"]
+
+  tags = {
+    Name = "dev5"
+  }
+}
+
+resource "aws_s3_bucket" "dev4" {
+  bucket = "felipe-dev4"
+  acl    = "private"
+
+  tags = {
+    Name = "felipe-dev4"
   }
 }
 
