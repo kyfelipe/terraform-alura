@@ -6,7 +6,24 @@ resource "aws_security_group" "access-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["201.59.53.171/32"]
+    cidr_blocks = "${var.cdirs_remote_access}"
+  }
+
+  tags = {
+    Name = "ssh"  
+  }
+}
+
+resource "aws_security_group" "access-ssh-us2" {
+  provider    = aws.us-east-2
+  name        = "access-ssh-us2"
+  description = "access-ssh-us2"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = "${var.cdirs_remote_access}"
   }
 
   tags = {
