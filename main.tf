@@ -21,6 +21,7 @@ resource "aws_instance" "dev" {
   }
 }
 
+/*
 resource "aws_instance" "dev4" {
   ami                    = "${var.amis["us-east-1"]}"
   instance_type          = "t2.micro"
@@ -32,6 +33,7 @@ resource "aws_instance" "dev4" {
     Name = "dev4"
   }
 }
+*/
 
 resource "aws_instance" "dev5" {
   ami                    = "${var.amis["us-east-1"]}"
@@ -57,6 +59,19 @@ resource "aws_instance" "dev6" {
   }
 }
 
+resource "aws_instance" "dev7" {
+  provider               = aws.us-east-2
+  ami                    = "${var.amis["us-east-2"]}"
+  instance_type          = "t2.micro"
+  key_name               = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.access-ssh-us2.id}"]
+
+  tags = {
+    Name = "dev7"
+  }
+}
+
+/*
 resource "aws_s3_bucket" "dev4" {
   bucket = "felipe-dev4"
   acl    = "private"
@@ -65,6 +80,7 @@ resource "aws_s3_bucket" "dev4" {
     Name = "felipe-dev4"
   }
 }
+*/
 
 resource "aws_dynamodb_table" "dynamodb-hml" {
   provider     = aws.us-east-2
